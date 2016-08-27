@@ -1,0 +1,49 @@
+-- This file has been generated from package.yaml by hpack version 0.13.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:                promql-haskell
+version:             0.1.0
+synopsis:            Language parser for Prometheus Query Language
+homepage:            https://github.com/jml/promql-haskell#readme
+bug-reports:         https://github.com/jml/promql-haskell/issues
+license:             Apache
+license-file:        LICENSE
+maintainer:          Jonathan M. Lange <jml@mumak.net>
+category:            Language
+build-type:          Simple
+cabal-version:       >= 1.10
+
+source-repository head
+  type: git
+  location: https://github.com/jml/promql-haskell
+
+library
+  hs-source-dirs:
+      src
+  default-extensions: NoImplicitPrelude OverloadedStrings
+  ghc-options: -Wall
+  exposed-modules:
+      Language.PromQL.Lexer
+  build-depends:
+      base >= 4.8
+    , protolude >= 0.1.5
+    , text
+    , parsec
+  default-language: Haskell2010
+
+test-suite promql-tests
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  hs-source-dirs:
+      tests
+  default-extensions: NoImplicitPrelude OverloadedStrings
+  ghc-options: -Wall
+  build-depends:
+      base >= 4.8
+    , protolude >= 0.1.5
+    , text
+    , promql-haskell
+    , tasty
+    , tasty-hunit
+  default-language: Haskell2010

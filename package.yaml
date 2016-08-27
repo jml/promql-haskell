@@ -1,0 +1,31 @@
+name: promql-haskell
+version: 0.1.0
+synopsis: Language parser for Prometheus Query Language
+maintainer: Jonathan M. Lange <jml@mumak.net>
+license: Apache
+github: jml/promql-haskell
+category: Language
+
+ghc-options: -Wall
+default-extensions:
+  - NoImplicitPrelude
+  - OverloadedStrings
+
+dependencies:
+  - base >= 4.8
+  - protolude >= 0.1.5
+  - text
+
+library:
+  source-dirs: src
+  dependencies:
+    - parsec
+
+tests:
+  promql-tests:
+    main: Main.hs
+    source-dirs: tests
+    dependencies:
+      - promql-haskell
+      - tasty
+      - tasty-hunit
