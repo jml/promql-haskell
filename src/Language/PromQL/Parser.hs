@@ -11,36 +11,53 @@ data Statement
   | Record Name Expression Model.LabelSet
 
 data Expression
-  = Aggregate { op :: Operator
-              , expr :: Expression
-              , param :: Expression
-              , grouping :: Model.LabelNames
-              , without :: Bool
-              , keepCommonLabels :: Bool
-              }
-  | BinaryExpression { op :: Operator
-                     , lhs :: Expression
-                     , rhs :: Expression
-                     , vectorMatching :: Maybe VectorMatching
-                     , returnBool :: Bool
-                     }
-  | Call { function :: Function
-         , args :: [Expression]
-         }
-  | MatrixSelector { name :: Name
-                   , range :: Model.Duration
-                   , offset :: Model.Duration
-                   , labelMatchers :: LabelMatchers
-                   }
+  = Aggregate AggregateExpression
+  | Binary BinaryExpression
+  | Call CallExpression
+  | MatrixSelector MatrixSelectorExpression
   | Number Model.SampleValue
   | ParenExpression Expression
   | String Text
-  | UnaryExpression Operator Expression
-  | VectorSelector { name :: Name
-                   , offset :: Model.Duration
-                   , labelMatchers :: LabelMatchers
+  | Unary UnaryExpression
+  | VectorSelector VectorSelectorExpression
+
+data AggregateExpression =
+  AggregateExpression { aggregateOp :: Operator
+                      , expression :: Expression
+                      , param :: Expression
+                      , grouping :: Model.LabelNames
+                      , without :: Bool
+                      , keepCommonLabels :: Bool
+                      }
+
+data BinaryExpression =
+  BinaryExpression { binaryOp :: Operator
+                   , lhs :: Expression
+                   , rhs :: Expression
+                   , vectorMatching :: Maybe VectorMatching
+                   , returnBool :: Bool
                    }
 
+data CallExpression =
+  CallExpression { function :: Function
+                 , args :: [Expression]
+                 }
+
+data MatrixSelectorExpression =
+  MatrixSelectorExpression { name :: Name
+                           , range :: Model.Duration
+                           , offset :: Model.Duration
+                           , labelMatchers :: LabelMatchers
+                           }
+
+data UnaryExpression =
+  UnaryExpression Operator Expression
+
+data VectorSelectorExpression =
+  VectorSelectorExpression { vsName :: Name
+                           , vsOffset :: Model.Duration
+                           , vsLabelMatchers :: LabelMatchers
+                           }
 
 type Name = Text
 
@@ -50,7 +67,6 @@ data Function
   --
   -- XXX: Golang definition has a Call method. I don't know how to do that in
   -- Haskell.
-
 
 type LabelMatchers = [LabelMatcher]
 
