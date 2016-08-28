@@ -25,6 +25,8 @@ library
   ghc-options: -Wall
   exposed-modules:
       Language.PromQL.Lexer
+      Language.PromQL.Model
+      Language.PromQL.Parser
   build-depends:
       base >= 4.8
     , protolude >= 0.1.5
