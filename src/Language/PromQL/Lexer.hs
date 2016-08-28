@@ -53,6 +53,31 @@ data Operator
   | POW
   deriving (Eq, Show)
 
+precedence :: Operator -> Int
+precedence LOR     = 1
+precedence LAND    = 2
+precedence LUnless = 2
+precedence EQL     = 3
+precedence NEQ     = 3
+precedence LTE     = 3
+precedence LSS     = 3
+precedence GTE     = 3
+precedence GTR     = 3
+precedence ADD     = 4
+precedence SUB     = 4
+precedence MUL     = 5
+precedence DIV     = 5
+precedence MOD     = 5
+precedence POW     = 6
+precedence _       = 0
+
+data Associativity = LeftAssociative | RightAssociative deriving (Eq, Show)
+
+associativity :: Operator -> Associativity
+associativity POW = RightAssociative
+associativity _   = LeftAssociative
+
+
 -- XXX: I don't know what these should be called or even whether they deserve
 -- to be a separate type.
 data Terminal
