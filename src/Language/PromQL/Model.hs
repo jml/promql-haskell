@@ -6,6 +6,8 @@ module Language.PromQL.Model
   -- * Core types
   , SampleValue
   , Duration
+  , DurationUnits(..)
+  , makeDuration
   , Time
   , Regex
   , ValueType
@@ -39,6 +41,30 @@ newtype Time = Time Integer
 -- our own for now for simplicity while figuring out exactly how the PromQL
 -- language works.
 newtype Duration = Duration Integer
+
+data DurationUnits
+  = Years
+  | Weeks
+  | Days
+  | Hours
+  | Minutes
+  | Seconds
+  | Milliseconds
+
+-- | Create a Duration given a number and some units.
+--
+-- Parallels the logic in ParseDuration from Prometheus.
+makeDuration :: Integer -> DurationUnits -> Duration
+makeDuration time unit = Duration (time * toNanoseconds unit)
+  where
+    toNanoseconds Milliseconds = 1000000
+    toNanoseconds Seconds = 1000 * toNanoseconds Milliseconds
+    toNanoseconds Minutes = 60 * toNanoseconds Seconds
+    toNanoseconds Hours = 60 * toNanoseconds Minutes
+    toNanoseconds Days = 24 * toNanoseconds Hours
+    toNanoseconds Weeks = 7 * toNanoseconds Days
+    toNanoseconds Years = 365 * toNanoseconds Days
+
 
 data ValueType = Scalar | Vector | Matrix | String
 
