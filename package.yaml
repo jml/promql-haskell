@@ -13,19 +13,19 @@ default-extensions:
 
 dependencies:
   - base >= 4.8
+  - parsec
   - protolude >= 0.1.5
   - text
 
 library:
   source-dirs: src
-  dependencies:
-    - parsec
 
 tests:
   promql-tests:
     main: Main.hs
     source-dirs: tests
     dependencies:
+      - neat-interpolation
       - promql-haskell
       - tasty
-      - tasty-hunit
+      - tasty-hspec

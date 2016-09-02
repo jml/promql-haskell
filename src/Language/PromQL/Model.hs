@@ -40,7 +40,7 @@ newtype Time = Time Integer
 -- XXX: Perhaps we should be using some Haskell standard type here. Defining
 -- our own for now for simplicity while figuring out exactly how the PromQL
 -- language works.
-newtype Duration = Duration Integer
+newtype Duration = Duration Integer deriving (Eq, Show)
 
 data DurationUnits
   = Years
@@ -50,6 +50,7 @@ data DurationUnits
   | Minutes
   | Seconds
   | Milliseconds
+  deriving (Eq, Show)
 
 -- | Create a Duration given a number and some units.
 --
